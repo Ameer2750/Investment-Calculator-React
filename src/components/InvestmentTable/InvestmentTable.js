@@ -1,5 +1,13 @@
-export const InvestmentTable = ({yearlyData}) => {
-    console.log('yearlyData: ', yearlyData);
+const formatter = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+})
+
+
+export const InvestmentTable = ({ data, initialInvestment }) => {
+    console.log('data: ', data);
     return (
         <table className="result">
             <thead>
@@ -11,21 +19,28 @@ export const InvestmentTable = ({yearlyData}) => {
                     <th>Invested Capital</th>
                 </tr>
             </thead>
-            <tbody>{
-                 yearlyData?.map((item) => {
-                    return (
-                        <tr key={item.year}>
-                        <td>{item.year}</td>
-                        <td>{item.savingsEndOfYear}</td>
-                        <td>{item.yearlyInterest}</td>
-                        <td>{item.yearlyContribution}</td>
-                        <td>TOTAL INVESTED CAPITAL</td>
-                    </tr>
-                    )
-                })
+            <tbody>
+                {
+                    data.map(yearData =>
+                        <tr key={yearData.year}>
+                            <td>{yearData.year}</td>
+                            <td>{formatter.format(yearData.savingsEndOfYear)}</td>
+                            <td>{formatter.format(yearData.yearlyInterest)}</td>
+                            <td>
+                                {formatter.format(yearData.savingsEndOfYear -
+                                    initialInvestment -
+                                    yearData.yearlyContribution * yearData.year)
+                                }
+                            </td>
+                            <td>
+                                {   formatter.format(
+                                    initialInvestment +
+                                    yearData.yearlyContribution * yearData.year)
+                                }
+                            </td>
+                        </tr>)
                 }
-           
-               
+
             </tbody>
         </table>
     )

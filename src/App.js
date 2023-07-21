@@ -5,15 +5,17 @@ import { InvestmentForm } from './components/InvestmentForm/InvestmentForm';
 import { InvestmentTable } from './components/InvestmentTable/InvestmentTable';
 
 function App() {
+
   const [userInput, setUserInput] = useState(null);
 
 
   const calculateHandler = (userInput) => {
     setUserInput(userInput)
   }
-
+  
+  const yearlyData = []; // per-year results
+  
   if (userInput) {
-    const yearlyData = []; // per-year results
 
     let currentSavings = +userInput['current-savings']; // feel free to change the shape of this input object!
     const yearlyContribution = +userInput['yearly-contribution']; // as mentioned: feel free to change the shape...
@@ -40,10 +42,8 @@ function App() {
       <Header />
       <InvestmentForm onCalculate={calculateHandler} />
 
-      {/* Todo: Show below table conditionally (only once result data is available) */}
-      {/* Show fallback text if no data is available */}
-
-      <InvestmentTable yearlyData={userInput} />
+      {!userInput && <p style={{textAlign: 'center'}}>No Investment Calculated Yet.</p>}
+      {userInput && <InvestmentTable data={yearlyData} initialInvestment={userInput['current-savings']}/>} 
     </div>
   );
 }
