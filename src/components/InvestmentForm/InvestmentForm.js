@@ -1,4 +1,5 @@
 import { useState } from "react";
+import styles from './InvestmentForm.module.css';
 
 const initialUserInput = {
     'current-savings': 10000,
@@ -26,15 +27,15 @@ export const InvestmentForm = ({ onCalculate }) => {
         setUserInput((prev) => {
             return {
                 ...prev,
-                [input]: value
+                [input]: +value
             }
         })
         
     }
 
     return (
-        <form className="form" onSubmit={SubmitHandler}>
-            <div className="input-group">
+        <form className={styles.form} onSubmit={SubmitHandler}>
+            <div className={styles['input-group']}>
                 <p>
                     <label htmlFor="current-savings">Current Savings ($)</label>
                     <input onChange={(event) => inputChangeHandler('current-savings', event.target.value)} type="number" id="current-savings" value={userInput['current-savings']}/>
@@ -44,7 +45,7 @@ export const InvestmentForm = ({ onCalculate }) => {
                     <input onChange={(event) => inputChangeHandler('yearly-contribution', event.target.value)} type="number" id="yearly-contribution"  value={userInput['yearly-contribution']}/>
                 </p>
             </div>
-            <div className="input-group">
+            <div className={styles['input-group']}>
                 <p>
                     <label htmlFor="expected-return">
                         Expected Interest (%, per year)
@@ -56,11 +57,11 @@ export const InvestmentForm = ({ onCalculate }) => {
                     <input onChange={(event) => inputChangeHandler('duration', event.target.value)} type="number" id="duration" value={userInput['duration']} />
                 </p>
             </div>
-            <p className="actions">
-                <button type="reset" className="buttonAlt" onClick={resetForm}>
+            <p className={styles.actions}>
+                <button type="reset" className={styles.buttonAlt} onClick={resetForm}>
                     Reset
                 </button>
-                <button type="submit" className="button">
+                <button type="submit" className={styles.button}>
                     Calculate
                 </button>
             </p>
